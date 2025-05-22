@@ -1,0 +1,41 @@
+name: massai mara park 01 gradle build
+
+on:
+  workflow_dispatch
+
+jobs:
+  mmpark01-docker-build:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Checkout Code
+        run: actions/checkout@v4
+
+      - name: Build Docker Image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./Dockerfile
+          push: false
+          load: true
+          tags: massai_mara:v1
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: run docker container
+        run: |
+          docker run -d --name mmpark01 -p 8080:8080 massai_mara:v1
+          sleep 20
+
+      - name: run automated test #1
+        run:
+          curl http://localhost:8080 || exit 1
+
+      - name: run automated test #2
+        run:
+          curl http://localhost:8080/images || exit 1
+
+      - name: run automated test #3
+        run:
+          curl http://localhost:8080/animal || exit 1
+
