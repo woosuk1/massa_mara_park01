@@ -1,4 +1,4 @@
-name: massai mara park 01 compose build
+name: massai mara park 01 compose multiplejob build
 
 on:
   workflow_dispatch
@@ -33,7 +33,7 @@ jobs:
 
   docker_multiple_deploy:
     runs-on: ubuntu-22.04
-
+    needs: docker_multiple_build
     steps:
 
       - name: pull docker image
