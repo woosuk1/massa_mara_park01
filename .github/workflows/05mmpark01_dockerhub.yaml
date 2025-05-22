@@ -1,4 +1,4 @@
-name: massai mara park 01 compose build
+name: massai mara park 01 docker hub build
 
 on:
   workflow_dispatch
@@ -22,5 +22,6 @@ jobs:
             docker build -t ${{ secrets.DOCKER_USERNAME }}/massai_mara:v1 .
             docker push ${{ secrets.DOCKER_USERNAME }}/massai_mara:v1
        - name: logout from docker hub
+         if: always()
          run: docker logout
     
