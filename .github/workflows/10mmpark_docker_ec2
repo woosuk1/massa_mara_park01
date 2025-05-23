@@ -7,7 +7,8 @@ env:
   DOCKER_USERNAME: woosuk02
   IMAGE_NAME: massai_mara
   IMAGE_TAG: v${{github.run_number}}
-
+  EC2_HOSTNAME: 43.203.192.114
+  EC2_USERNAME: ubuntu
 
 jobs:
   build_image:
@@ -124,8 +125,8 @@ jobs:
           source: "./docker-compose.yaml"
           target: "~/home/${{env.EC2_USERNAME}}"
           script: |
-           docker compose -f ./compose-multijobs.yaml up -d
-           sleep 30
+            docker compose -f ./compose-multijobs.yaml up -d
+            sleep 30
 
-           docker compose ps
-           docker compose logs
+            docker compose ps
+            docker compose logs
