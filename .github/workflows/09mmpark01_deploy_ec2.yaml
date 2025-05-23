@@ -66,13 +66,13 @@ jobs:
           echo "${{ secrets.EC2_PRIVATEKEY }}" > ~/.ssh/ec2_key
           chmod 600 ~/.ssh/ec2_key
 
-      - name: Upload README.md via SCP
+      - name: Upload JAR via SCP
         run: |
           scp -i ~/.ssh/ec2_key \
               -o "StrictHostKeyChecking=no" \
               -o "UserKnownHostsFile=/dev/null" \
               *SNAPSHOT.jar \
-              ${{ env.EC2_USERNAME }}@${{ env.EC2_HOSTNAME }}:~/app
+              ${{ env.EC2_USERNAME }}@${{ env.EC2_HOSTNAME }}:~/
 
       - name: Cleanup Private Key
         if: always()
