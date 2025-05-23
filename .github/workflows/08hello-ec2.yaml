@@ -44,7 +44,7 @@ jobs:
           scp -i ~/.ssh/ec2_key \
               -o "StrictHostKeyChecking=no" \
               -o "UserKnownHostsFile=/dev/null" \
-              -P 8832 README.md \
+              README.md \
               ${{ env.EC2_USERNAME }}@${{ env.EC2_HOSTNAME }}:~/ 
 
       - name: Cleanup Private Key
