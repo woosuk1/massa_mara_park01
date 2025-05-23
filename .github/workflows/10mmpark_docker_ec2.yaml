@@ -123,8 +123,8 @@ jobs:
           key: ${{ secrets.EC2_PRIVATEKEY }}
           port: 22
           script: |
-            docker-compose -f ./compose-multijobs.yaml up -d
+            docker compose -f ./compose-multijobs.yaml up -d
             sleep 30
 
-            docker-compose ps
-            docker-compose logs
+            docker compose ps
+            docker compose logs
