@@ -102,7 +102,7 @@ jobs:
           key: ${{ secrets.EC2_PRIVATEKEY }}
           port: 22
           source: "./compose-multijobs.yaml"
-          target: "~/home/${{env.EC2_USERNAME}}"
+          target: "~"
 
   run_test:
     needs: upload_compose
