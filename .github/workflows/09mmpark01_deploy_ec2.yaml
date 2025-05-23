@@ -61,6 +61,9 @@ jobs:
           echo "${{ secrets.EC2_PRIVATEKEY }}" > ~/.ssh/ec2_key
           chmod  600  ~/.ssh/ec2_key
 
+      - name: Check JAR exists
+        run: ls -al *SNAPSHOT.jar
+
       - name: upload JAR via SCP
         run: |
           scp -i ~/.ssh/ec2_key \
@@ -94,11 +97,11 @@ jobs:
       - name: test SSH connect to EC2
         run: |
           ssh -o "StrictHostKeyChecking=no" \
-            -o "UserKnownHostsFile=/dev/null" \ 
+            -o "UserKnownHostsFile=/dev/null" \
             -i ~/.ssh/ec2_key -p 22 \
             ${{env.EC2_USERNAME}}@${{env.EC2_HOSTNAME}}   '
 
-                nohap java -jar ./massai_mara_park-0.0.1-SNAPSHOT.jar \
+                nohup java -jar ./massai_mara_park-0.0.1-SNAPSHOT.jar \
                   > app.log 2>&1 < /dev/null &
             
             '
