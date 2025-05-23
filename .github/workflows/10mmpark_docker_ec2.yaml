@@ -93,9 +93,23 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
+
+      - name: login to docker hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: docker operations
+        run: 
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/massai_mara:v1 .;
+          docker push ${{ secrets.DOCKER_USERNAME }}/massai_mara:v1
+      - name: logout from docker hub
+        if: always()
+        run: docker logout
       
       - name: copy file to ec2
-        uses: applyboy/scp-action@master
+        uses: appleboy/scp-action@master
         with:
           host: ${{env.EC2_HOSTNAME}}
           username: ${{env.EC2_USERNAME}}
@@ -115,15 +129,13 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: deloy on EC2
-        uses: appleboy/scp-action@master
+      - name: deploy on EC2
+        uses: appleboy/ssh-action@master
         with:
           host: ${{env.EC2_HOSTNAME}}
           username: ${{env.EC2_USERNAME}}
           key: ${{ secrets.EC2_PRIVATEKEY }}
           port: 22
-          source: "./docker-compose.yaml"
-          target: "~/home/${{env.EC2_USERNAME}}"
           script: |
             docker compose -f ./compose-multijobs.yaml up -d
             sleep 30
