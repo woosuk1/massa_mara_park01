@@ -2,7 +2,8 @@ version: "3.9"
 
 services:
    mmpark01_app:
-      image: woosuk02/massai_mara:latest
+      # image: woosuk02/massai_mara:latest
+      image: woosuk02/massai_mara:arm64
       container_name: massai_mara_app
       ports:
          - "8080:8080"
